@@ -2,7 +2,7 @@
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
     <!-- <router-view /> -->
-    <test></test>
+    <users></users>
     
   </div>
 </template>
@@ -12,11 +12,12 @@
  * Root component
  */
 import Test from './components/test'
+import Users from './components/users'
 
 export default {
   name: 'q-app',
   components: {
-    Test
+    Test, Users
   }
 
 }

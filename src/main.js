@@ -13,9 +13,24 @@ require(`quasar/dist/quasar.${__THEME}.css`)
 import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'
+import vueResource from 'vue-resource'
+import VueRouter from 'vue-router'
+import Users from './components/Users'
+import Test from './components/Test'
 
 Vue.config.productionTip = false
 Vue.use(Quasar) // Install Quasar Framework
+Vue.use(vueResource) // Install vue resource
+Vue.use(VueRouter)
+
+/* const router = new VueRouter({
+  mode: 'history',
+  base: __dirname,
+  routes: [
+    {path:'/', component:Users},
+    {path: '/test', component: Test}
+  ]
+}) */
 
 if (__THEME === 'mat') {
   require('quasar-extras/roboto-font')
