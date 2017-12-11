@@ -3,10 +3,15 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+import Users from './components/users'
+import Error404 from './components/error404'
+
 function load (component) {
   // '@' is aliased to src/components
   return () => import(`@/${component}.vue`)
 }
+
+Vue.component('layout', load('Layout'))
 
 export default new VueRouter({
   /*
@@ -25,7 +30,9 @@ export default new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
 
   routes: [
-    { path: '/', component: load('Hello') },
+    // { path: '/', component: Users },
+    { path: '/login', component: load('Login')},
+    { path: '/user', component: load('Users')},
 
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found

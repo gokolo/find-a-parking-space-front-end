@@ -1,11 +1,20 @@
+
 <template>
-  <div class = "users">
+
+  <div class="users justify-center layout">
     <h1>Users</h1>
-    <form v-on:submit="add_user">
-      <input type="text" v-model="new_user.name" placeholder="Enter Name"/> <br>
-      <input type="text" v-model="new_user.email" placeholder="Enter Email"/> <br>
-      <input type="submit" value="Submit"/> <br>
-    </form>
+    <!-- <form v-on:submit="add_user"> -->
+      <q-field icon="account box" helper="Username" :count="10" >
+        <q-input v-model="new_user.name"/>
+      </q-field>
+      <q-field icon="account" helper="Name">
+        <q-input type="text" v-model="new_user.name" placeholder="Enter Name"/>
+      </q-field>
+      <q-field icon="mail" helper="Email">
+        <q-input type="text" v-model="new_user.email" placeholder="Enter Email"/>
+      </q-field>
+      <q-btn icon="input" color="primary" class="full-width"> Submit </q-btn>
+    <!-- </form> -->
     <ul>
       <li v-for="user in users" :key="user.name">
         <input type="checkbox" class="toggle" v-model="user.contacted">
@@ -18,7 +27,11 @@
 </template>
 
 <script>
+import {QField, QInput, QBtn} from 'quasar'
 export default {
+  components: {
+    QField, QInput, QBtn
+  },
   name: 'users',
   data () {
     return {
@@ -49,9 +62,8 @@ export default {
 }
 </script>
 
-<style scoped>
-  .contacted{
-    text-decoration: line-through;
-  }
+<!-- Notice lang="stylus" -->
+<style>
+
 </style>
 
