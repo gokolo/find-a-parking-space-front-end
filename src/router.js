@@ -27,11 +27,11 @@ export default new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
 
   routes: [
-    // { path: '/', component: Users },
+    { path: '/', component: load('Home') },
     { path: '/login', component: load('Login')},
     { path: '/user', component: load('Users')},
     { path: '/signup', component: load('Signup')},
-    { path: '/home', component: load('Home')},
+    { path: '/booking', component: load('Booking')},
 
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found

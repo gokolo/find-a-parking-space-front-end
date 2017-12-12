@@ -16,6 +16,7 @@
         <q-route-tab slot="title" icon="account_box" to="/layout/toolbar" replace hide="icon" label="Account" />
         <q-route-tab slot="title" icon="directions_car" to="/layout/tabs" replace label="Bookings" />
         <!-- <q-route-tab slot="title" icon="input" to="/layout/drawer" replace label="Drawer" /> -->
+        <q-route-tab slot="title" icon="input" class="pull-right" to="/layout/login" label="Logout" v-on:click="logout()" /> 
       </q-tabs>
     
     </q-toolbar>
@@ -63,6 +64,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import auth from "./auth";
+
 import { QLayout, QToolbar, QTabs, QRouteTab, QToolbarTitle } from 'quasar';
 export default {
   components: {
@@ -70,6 +74,11 @@ export default {
   },
   data () {
     return {}
+  },
+  methods: {
+      logout: function() {
+          auth.logout(this, { headers: auth.getAuthHeader() });
+      }
   }
 }
 </script>
