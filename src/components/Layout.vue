@@ -14,9 +14,9 @@
 
     <!-- Navigation Tabs -->
     <q-tabs slot="navigation">
-      <q-route-tab slot="title" icon="view_quilt" to="/layout/about" replace hide="icon" label="About" />
-      <q-route-tab slot="title" icon="view_day" to="/layout/toolbar" replace hide="icon" label="Toolbar" />
-      <q-route-tab slot="title" icon="view_day" to="/layout/tabs" replace label="Tabs" />
+      <q-route-tab slot="title" icon="home" to="/layout/home" replace hide="icon" label="Home" />
+      <q-route-tab slot="title" icon="account_box" to="/layout/toolbar" replace hide="icon" label="Account" />
+      <q-route-tab slot="title" icon="directions_car" to="/layout/tabs" replace label="Bookings" />
       <q-route-tab slot="title" icon="input" to="/layout/drawer" replace label="Drawer" />
     </q-tabs>
    
