@@ -1,0 +1,16 @@
+[
+    {
+    "payment_type": "Hourly",
+    "start_time": "12:00",
+    "end_time": "13:00",
+    "payment_method": "Pay now",
+    "payment_status": "paid"
+    },
+    {
+    "payment_type": "Monthly",
+    "start_time": "16:30",
+    "end_time": "16:35",
+    "payment_method": "Pay at end of stay",
+    "payment_status": "unpaid"
+    }
+]

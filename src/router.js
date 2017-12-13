@@ -31,7 +31,8 @@ export default new VueRouter({
     { path: '/login', component: load('Login')},
     { path: '/user', component: load('Users')},
     { path: '/signup', component: load('Signup')},
-    { path: '/booking', component: load('Booking')},
+    { path: '/bookings', component: load('Bookings')},
+    { path: '/customer', component: load('Customer')},
 
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found

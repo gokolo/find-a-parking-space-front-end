@@ -21,15 +21,17 @@ export default {
   components: {
     QField, QInput, QBtn
   },
-  name: 'users',
   data () {
     return {
-      new_user: {},
-      users: []
+      username: "",
+      password: ""
     }
   },
   methods: {
-    
+    login: function() {
+      //console.log(`Username ${this.username}, password ${this.password}`);
+      auth.login(this, {username: this.username, password: this.password}, "/");
+    }
   }
 }
 </script>

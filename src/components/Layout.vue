@@ -7,16 +7,23 @@
         <i>menu</i>
       </button>
       -->
+      <!-- <q-btn @click="$refs.layout.toggleLeft()" big >
+        <q-icon name="local parking" />Central Perk
+      </q-btn> -->
+      <!-- <q-btn round color="brown-5"> 
+        <q-icon name="local parking" />
+      </q-btn> -->
+
       <q-toolbar-title>
         
       </q-toolbar-title>
        <!-- Navigation Tabs -->
       <q-tabs slot="navigation">
-        <q-route-tab slot="title" icon="home" to="/layout/home" replace hide="icon" label="Home" />
-        <q-route-tab slot="title" icon="account_box" to="/layout/toolbar" replace hide="icon" label="Account" />
-        <q-route-tab slot="title" icon="directions_car" to="/layout/tabs" replace label="Bookings" />
+        <q-route-tab slot="title" icon="home" to="/" replace hide="icon" label="Home" />
+        <q-route-tab slot="title" icon="account_box" to="/customer" replace hide="icon" label="Account" />
+        <q-route-tab slot="title" icon="directions_car" to="/bookings" replace label="Bookings" />
         <!-- <q-route-tab slot="title" icon="input" to="/layout/drawer" replace label="Drawer" /> -->
-        <q-route-tab slot="title" icon="input" class="pull-right" to="/layout/login" label="Logout" v-on:click="logout()" /> 
+        <q-route-tab slot="title" icon="input" class="pull-right" to="/login" label="Logout" v-on:click="logout()" /> 
       </q-tabs>
     
     </q-toolbar>
@@ -67,10 +74,10 @@
 import axios from "axios";
 import auth from "./auth";
 
-import { QLayout, QToolbar, QTabs, QRouteTab, QToolbarTitle } from 'quasar';
+import { QLayout, QToolbar, QTabs, QRouteTab, QToolbarTitle, QIcon  } from 'quasar';
 export default {
   components: {
-    QLayout, QToolbar, QTabs, QRouteTab, QToolbarTitle
+    QLayout, QToolbar, QTabs, QRouteTab, QToolbarTitle, QIcon 
   },
   data () {
     return {}
