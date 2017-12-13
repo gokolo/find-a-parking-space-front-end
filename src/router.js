@@ -32,6 +32,7 @@ export default new VueRouter({
     { path: '/user', component: load('Users')},
     { path: '/signup', component: load('Signup')},
     { path: '/bookings', component: load('Bookings')},
+    { path: '/booking', component: load('Booking')},
     { path: '/customer', component: load('Customer')},
 
     // Always leave this last one

@@ -12,17 +12,21 @@
       <q-input type="password" v-model="password"/>
     </q-field>
     <q-btn icon="input" class="full-width" color="primary" v-on:click="login()">Signup</q-btn>
-    <div class="layout-padding">
-      <span>Have an account? <a to="/layout/login">Log in</a></span>
+   
+    <div>
+      <q-side-link item to="/login"> 
+        <q-item-main label="Have an account? Log in" />
+      </q-side-link>
     </div>
+
   </div>
 </template>
 
 <script>
-import {QField, QInput, QBtn} from 'quasar'
+import {QField, QInput, QBtn, QSideLink, QItemMain} from 'quasar'
 export default {
   components: {
-    QField, QInput, QBtn
+    QField, QInput, QBtn, QSideLink, QItemMain
   },
   name: 'users',
   data () {
