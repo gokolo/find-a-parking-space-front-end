@@ -1,8 +1,9 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
+    <layout></layout>
+
     <!-- <router-view /> -->
-    <test></test>
     
   </div>
 </template>
@@ -11,13 +12,8 @@
 /*
  * Root component
  */
-import Test from './components/test'
 
 export default {
-  name: 'q-app',
-  components: {
-    Test
-  }
 
 }
 </script>

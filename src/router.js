@@ -8,6 +8,8 @@ function load (component) {
   return () => import(`@/${component}.vue`)
 }
 
+Vue.component('layout', load('Layout'))
+
 export default new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
@@ -25,7 +27,13 @@ export default new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
 
   routes: [
-    { path: '/', component: load('Hello') },
+    { path: '/', component: load('Home') },
+    { path: '/login', component: load('Login')},
+    { path: '/user', component: load('Users')},
+    { path: '/signup', component: load('Signup')},
+    { path: '/bookings', component: load('Bookings')},
+    { path: '/booking', component: load('Booking')},
+    { path: '/customer', component: load('Customer')},
 
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found
