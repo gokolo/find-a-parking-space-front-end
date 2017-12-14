@@ -1,11 +1,13 @@
 import axios from "axios";
 import {Socket} from "phoenix";
 
+let BASE_URL = DEV ? 'http://localhost:4000' : 'http://localhost:4000';
+
 export default {
   user: { role: "", username: "" },
   socket: null, 
   login: function (context, creds, redirect) {
-    axios.post("/api/sessions", creds)
+    axios.post(BASE_URL+"/api/sessions", creds)
       .then(response => {
         this.user.username = creds.username;
         this.user.role = response.data.role;
@@ -21,7 +23,7 @@ export default {
       });
   },
   logout: function(context, options) {
-    axios.delete("/api/sessions/1", options)
+    axios.delete("BASE_URL+/api/sessions/1", options)
       .then(response => {
         window.localStorage.removeItem('token-'+this.user.username);
         this.user.authenticated = false;
