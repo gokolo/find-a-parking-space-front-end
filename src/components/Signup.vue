@@ -1,6 +1,5 @@
 
 <template>
-
   <div class="layout-padding">    
     <q-field helper="Name">
       <q-input v-model="name"/>

@@ -23,7 +23,7 @@ export default {
       });
   },
   logout: function(context, options) {
-    axios.delete("BASE_URL+/api/sessions/1", options)
+    axios.delete(BASE_URL+"/api/sessions/1", options)
       .then(response => {
         window.localStorage.removeItem('token-'+this.user.username);
         this.user.authenticated = false;
@@ -32,6 +32,17 @@ export default {
         context.$router.push({path: '/login'});
       }).catch(error => {
         console.log(error)
+      });
+  },
+  getBookings: function (context) {
+    var token = window.localStorage.getItem('token-'+this.user.username);
+    axios.get("/api/bookings", {headers: auth.getAuthHeader()})
+      .then(response => {
+        this.user.username = creds.username;
+        
+      })
+      .catch(error => {
+        console.log(error);
       });
   },
   getChannel: function(prefix) {
