@@ -22,6 +22,8 @@ import {QField, QInput, QBtn} from 'quasar'
 import axios from "axios";
 import auth from "./auth";
 
+let BASE_URL = DEV ? 'http://localhost:4000' : 'http://localhost:4000';
+
 export default {
   components: {
     QField, QInput, QBtn
@@ -41,7 +43,7 @@ export default {
     methods: {
         submitDecision: function (decision) {
             if (this.channelMessage) {
-                axios.patch("/api/bookings/" +this.channelMessage.booking_id, 
+                axios.patch(BASE_URL+"/api/bookings/" +this.channelMessage.booking_id, 
                     {status: decision.status}, {headers: auth.getAuthHeader()})
                 .then( response => {
                     console.log("Received:", response );
@@ -51,7 +53,7 @@ export default {
             }
         },
         submitBookingRequest: function() {
-            axios.post("/api/bookings",
+            axios.post(BASE_URL+"/api/bookings",
                 {destination_address: this.destination_address, intented_stay_time: this.intented_stay_time},
                 {headers: auth.getAuthHeader()})
                 .then(response => {
@@ -129,7 +131,7 @@ export default {
                     marker.set("id",place.id)
                     marker.set("intented_stay", this.intented_stay_time)
                     window.google.maps.event.addListener(marker, 'click', function(){
-                        var intented_stay_time = window.prompt("Please confirm intented staying time (min):", marker.get("intented_stay"));
+                        var intented_stay_time = marker.get("intented_stay");
                         if (intented_stay_time == null | intented_stay_time <= 0) {
                             this.message = "please enter valid time"
                         } else {
@@ -151,7 +153,7 @@ export default {
                     marker.set("hourlyBasedCost", hourlyBasedCost)
                     marker.set("realTimeBasedCost", realTimeBasedCost)
                     window.google.maps.event.addListener(marker, 'click', function(){
-                        var intented_stay_time = window.prompt("Please confirm intented staying time (min):", marker.get("intented_stay"));
+                        var intented_stay_time = marker.get("intented_stay");
                         if (intented_stay_time == null | intented_stay_time <= 0) {
                             this.message = "please enter valid time"
                         } else {
@@ -164,7 +166,8 @@ export default {
     },
     mounted: function() {
         if (auth.socket) {
-            var channel = auth.getChannel("customer:");
+            var channel = auth.getChannel(BASE_URL+"customer:");
+            console.log(channel)
             channel.join()
                 .receive("ok", resp => { console.log("Joined successfully", resp) })
                 .receive("error", resp => { console.log("Unable to join", resp) });

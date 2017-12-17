@@ -48,7 +48,6 @@ import {
 } from 'quasar'
 import table from '../data/table.json'
 export default {
-  name: 'bookings',
   components: {
     QDataTable,
     QField,
@@ -62,6 +61,11 @@ export default {
     QCollapsible
   },
   methods: {
+    changeMessage (props) {
+      props.rows.forEach(row => {
+        row.data.message = 'Gogu'
+      })
+    },
     deleteRow (props) {
       props.rows.forEach(row => {
         this.table.splice(row.index, 1)
@@ -84,7 +88,7 @@ export default {
   },
   data () {
     return {
-      bookings,
+      table,
       config: {
         title: '',
         refresh: false,

@@ -2,6 +2,7 @@ import axios from "axios";
 import {Socket} from "phoenix";
 
 let BASE_URL = DEV ? 'http://localhost:4000' : 'http://localhost:4000';
+let SOCKET_URL = DEV ? 'ws://localhost:4000' : 'ws://localhost:4000';
 
 export default {
   user: { role: "", username: "" },
@@ -13,7 +14,7 @@ export default {
         this.user.role = response.data.role;
         window.localStorage.setItem('token-'+this.user.username, response.data.token);
 
-        this.socket = new Socket("/socket", {params: {token: response.data.token}});
+        this.socket = new Socket(SOCKET_URL + "/socket", {params: {token: response.data.token}});
         this.socket.connect();
         if (redirect)
           context.$router.push({path: redirect});
@@ -36,7 +37,7 @@ export default {
   },
   getBookings: function (context) {
     var token = window.localStorage.getItem('token-'+this.user.username);
-    axios.get("/api/bookings", {headers: auth.getAuthHeader()})
+    axios.get(BASE_URL+"/api/bookings", {headers: auth.getAuthHeader()})
       .then(response => {
         this.user.username = creds.username;
         
