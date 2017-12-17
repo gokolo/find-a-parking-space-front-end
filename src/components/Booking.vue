@@ -29,6 +29,8 @@
     </q-field>
     
     <q-btn icon="input" class="full-width" color="primary" v-on:click="book()">Book</q-btn>
+
+    
     
   </div>
 </template>

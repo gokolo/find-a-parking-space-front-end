@@ -23,7 +23,7 @@
         <q-route-tab slot="title" icon="account_box" to="/customer" replace hide="icon" label="Account" />
         <q-route-tab slot="title" icon="directions_car" to="/bookings" replace label="Bookings" />
         <!-- <q-route-tab slot="title" icon="input" to="/layout/drawer" replace label="Drawer" /> -->
-        <q-route-tab slot="title" icon="input" class="pull-right" to="/login" label="Logout" v-on:click="logout()" /> 
+        <q-route-tab slot="title" icon="input" class="pull-right" to="/login" label="Logout" v-on:click="logout" /> 
       </q-tabs>
     
     </q-toolbar>
@@ -84,7 +84,7 @@ export default {
   },
   methods: {
       logout: function() {
-          auth.logout(this, { headers: auth.getAuthHeader() });
+         // auth.logout(this, { headers: auth.getAuthHeader() });
       }
   }
 }

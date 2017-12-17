@@ -8,7 +8,7 @@
     <q-field icon="lock" helper="Password" :count="10">
       <q-input type="password" v-model="password"/>
     </q-field>
-    <q-btn icon="input" class="full-width" color="primary" v-on:click="login()">Log in</q-btn>
+    <q-btn icon="input" class="full-width" color="primary" v-on:click="login">Log in</q-btn>
     
     <div>
       <q-side-link item to="/signup"> 
@@ -20,6 +20,8 @@
 
 <script>
 import {QField, QInput, QBtn, QSideLink, QItemMain} from 'quasar'
+import auth from "./auth"
+
 export default {
   components: {
     QField, QInput, QBtn, QSideLink, QItemMain
@@ -30,10 +32,17 @@ export default {
       password: ""
     }
   },
+  created: function () {
+    this.$notify({
+    group: 'foo',
+    title: 'Important message',
+    text: 'Hello user! This is a notification!'
+    });
+  },
   methods: {
     login: function() {
-      //console.log(`Username ${this.username}, password ${this.password}`);
-      auth.login(this, {username: this.username, password: this.password}, "/");
+      console.log(`Username ${this.username}, password ${this.password}`);
+      auth.login(this, {username: this.username, password: this.password}, "/bookings");
     }
   }
 }

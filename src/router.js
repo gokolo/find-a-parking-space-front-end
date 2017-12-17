@@ -1,6 +1,25 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+const requireAuth = (to, _from, next) => {
+  if (!auth.authenticated()) {
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath }
+    });
+  } else {
+    next();
+  }
+}
+
+const afterAuth = (_to, from, next) => {
+  if (auth.authenticated()) {                     
+    next(from.path);
+  } else {
+    next();
+  }
+}
+
 Vue.use(VueRouter)
 
 function load (component) {
@@ -33,9 +52,10 @@ export default new VueRouter({
     { path: '/signup', component: load('Signup')},
     { path: '/bookings', component: load('Bookings')},
     { path: '/booking', component: load('Booking')},
+    //{ path: '/booking/:intented_stay/:place_id/:hourlyBasedCost/:realTimeBasedCost', component: booking, beforeEnter: requireAuth},
     { path: '/customer', component: load('Customer')},
 
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found
   ]
-})
+});
