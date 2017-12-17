@@ -33,11 +33,11 @@ export default {
     }
   },
   created: function () {
-    // this.$notify({
-    // group: 'foo',
-    // title: 'Important message',
-    // text: 'Hello user! This is a notification!'
-});
+    this.$notify({
+    group: 'foo',
+    title: 'Important message',
+    text: 'Hello user! This is a notification!'
+    });
   },
   methods: {
     login: function() {
