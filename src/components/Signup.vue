@@ -1,6 +1,7 @@
 
 <template>
-  <div class="layout-padding">    
+  <div class="layout-padding">   
+  <p class="caption">Personal Information:</p> 
     <q-field helper="Name">
       <q-input v-model="name"/>
     </q-field>    
@@ -10,6 +11,21 @@
     <q-field helper="Password" :count="10">
       <q-input type="password" v-model="password"/>
     </q-field>
+    
+    <p class="caption">Payment Card Details:</p>
+    <q-field helper="Cardholder Name:">
+      <q-input v-model="card_holder_name"/>
+    </q-field>
+    <q-field helper="Card Number:">
+      <q-input v-model="card_number" max-length="16"/>
+    </q-field>
+    <q-field helper="CVC:">
+      <q-input type="password" v-model="card_cvc" max-length="3"/>
+    </q-field>
+    <q-field helper="Expiry Date (mmyy) :">
+      <q-input type="string" v-model="expiry_date" max-length="5"/>
+    </q-field>
+
     <q-btn icon="input" class="full-width" color="primary" v-on:click="login()">Signup</q-btn>
    
     <div>
