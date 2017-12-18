@@ -45,7 +45,6 @@
 import {QField, QInput, QBtn, QOptionGroup} from 'quasar'
 import axios from "axios";
 import auth from "./auth";
-import socket from "./socket";
 
 let BASE_URL = DEV ? 'http://localhost:4000' : 'http://localhost:4000';
 
