@@ -2,7 +2,12 @@
 <template>
 
   <div class="layout-padding">   
-    <h2>{{message}}</h2>
+    <q-modal ref="minimizedModal" minimized :content-css="{padding: '50px'}">
+      <h4>Minimized Modal</h4>
+      <p>{{message}}</p>
+      <q-btn color="green" @click="$refs.minimizedModal.close()">Close</q-btn>
+    </q-modal>
+    <!-- <h2>{{message}}</h2> -->
     <h2>Booking Information</h2>
     <p>Booking a place for {{$route.params.intented_stay}} minute(s)</p>
     <p v-if="$route.params.hourlyBasedCost !=0">Hourly rate cost:  {{$route.params.hourlyBasedCost}} euro</p>
@@ -42,15 +47,16 @@
 </template>
 
 <script>
-import {QField, QInput, QBtn, QOptionGroup} from 'quasar'
+import {QField, QInput, QBtn, QOptionGroup, QModal, QModalLayout} from 'quasar'
 import axios from "axios";
 import auth from "./auth";
+import { Alert } from 'quasar';
 
 let BASE_URL = DEV ? 'http://localhost:4000' : 'http://localhost:4000';
 
 export default {
   components: {
-    QField, QInput, QBtn, QOptionGroup
+    QField, QInput, QBtn, QOptionGroup, QModal, QModalLayout
   },
   data: function() {
     return {
@@ -91,6 +97,7 @@ export default {
         .then( response => {
             console.log("Received:", response );
             this.message = response.data.message
+            window.location.replace("/#/");
         }).catch( e => console.log("Oops"));
         
       

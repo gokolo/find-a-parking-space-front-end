@@ -35,6 +35,15 @@ export default {
         console.log(error)
       });
   },
+  newUser: function (context) {
+    axios.post(BASE_URL+"/api/sign-up", creds)
+      .then(response => {
+        window.location.replace("/#/login");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
   getChannel: function(prefix) {
     var token = window.localStorage.getItem('token-'+this.user.username);
     var channel = this.socket.channel(prefix + this.user.username, { guardian_token: token });
