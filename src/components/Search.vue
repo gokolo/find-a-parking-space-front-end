@@ -136,7 +136,7 @@ export default {
                             this.message = "please enter valid time"
                         } else {
                             // axios.get("/#/booking/"+intented_stay_time+"/"+ marker.get("id"))
-                            window.location.replace("/#/booking/"+intented_stay_time+"/"+ marker.get("id")+"/0/0");
+                            window.location.replace("/#/book/"+intented_stay_time+"/"+ marker.get("id")+"/0/0");
                         }
                         
                     });
@@ -158,7 +158,7 @@ export default {
                             this.message = "please enter valid time"
                         } else {
                             // axios.get("/#/booking/"+intented_stay_time+"/"+ marker.get("id"))
-                            window.location.replace("/#/booking/"+intented_stay_time+"/"+ marker.get("id")+"/"+marker.get("hourlyBasedCost")+"/"+marker.get("realTimeBasedCost"));
+                            window.location.replace("/#/book/"+intented_stay_time+"/"+ marker.get("id")+"/"+marker.get("hourlyBasedCost")+"/"+marker.get("realTimeBasedCost"));
                         }
                     });
                 }

@@ -35,17 +35,6 @@ export default {
         console.log(error)
       });
   },
-  getBookings: function (context) {
-    var token = window.localStorage.getItem('token-'+this.user.username);
-    axios.get(BASE_URL+"/api/bookings", {headers: auth.getAuthHeader()})
-      .then(response => {
-        this.user.username = creds.username;
-        
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  },
   getChannel: function(prefix) {
     var token = window.localStorage.getItem('token-'+this.user.username);
     var channel = this.socket.channel(prefix + this.user.username, { guardian_token: token });

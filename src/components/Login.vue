@@ -32,17 +32,11 @@ export default {
       password: ""
     }
   },
-  created: function () {
-    this.$notify({
-    group: 'foo',
-    title: 'Important message',
-    text: 'Hello user! This is a notification!'
-    });
-  },
+
   methods: {
     login: function() {
       console.log(`Username ${this.username}, password ${this.password}`);
-      auth.login(this, {username: this.username, password: this.password}, "/bookings");
+      auth.login(this, {username: this.username, password: this.password}, "/");
     }
   }
 }

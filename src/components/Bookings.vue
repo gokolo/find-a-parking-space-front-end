@@ -2,7 +2,7 @@
   <div class="layout-padding">
     <h5>Parking Space Bookings</h5>
     <q-data-table
-      :data="table"
+      :data="bookings"
       :config="config"
       :columns="columns"
       @refresh="refresh"
@@ -20,14 +20,14 @@
         <div v-else class="my-label text-white bg-negative">{{cell.data}}</div>
       </template>
 
-      <!-- <template slot="selection" slot-scope="props">
-        <q-btn flat color="primary" @click="changeMessage(props)">
+      <template slot="selection" slot-scope="props">
+        <!-- <q-btn flat color="primary" @click="changeMessage(props)">
           <q-icon name="edit" />
-        </q-btn>
+        </q-btn> -->
         <q-btn flat color="primary" @click="deleteRow(props)">
           <q-icon name="delete" />
         </q-btn>
-      </template> -->
+      </template>
     </q-data-table>
   </div>
 </template>
@@ -46,7 +46,12 @@ import {
   QCollapsible,
   clone
 } from 'quasar'
-import table from '../data/table.json'
+import auth from "./auth"
+import axios from "axios";
+//import table from '../data/table.json'
+
+let BASE_URL = DEV ? 'http://localhost:4000' : 'http://localhost:4000';
+
 export default {
   components: {
     QDataTable,
@@ -68,7 +73,8 @@ export default {
     },
     deleteRow (props) {
       props.rows.forEach(row => {
-        this.table.splice(row.index, 1)
+        this.bookings.splice(row.index, 1)
+        
       })
     },
     refresh (done) {
@@ -81,14 +87,23 @@ export default {
     },
     rowClick (row) {
       console.log('clicked on a row', row)
+    },
+    fetchBookings (options) {
+      axios.get(BASE_URL+"/api/bookings/summary", options)
+        .then(response => {
+          this.bookings = response.data
+          //console.log(response.data)
+          //console.log(response.data[0])
+        })
     }
   },
   beforeDestroy () {
     clearTimeout(this.timeout)
   },
+  name: 'bookings',
   data () {
     return {
-      table,
+      bookings: [],
       config: {
         title: '',
         refresh: false,
@@ -109,16 +124,16 @@ export default {
       },
       columns: [        
         {
-          label: 'Start Time',
-          field: 'start_time',
+          label: 'Parking Time (minutes)',
+          field: 'estimated_time',
           filter: true,
           sort: true,
           type: 'string',
           width: '100px'
         },
         {
-          label: 'End Time',
-          field: 'end_time',
+          label: 'Cost of Parking',
+          field: 'estimated_cost',
           filter: true,
           sort: true,
           classes: 'bg-orange-2',
@@ -127,25 +142,25 @@ export default {
         },
         {
           label: 'Payment Type',
-          field: 'payment_type',
+          field: 'pay_type',
           filter: true,
           sort: true,
           classes: 'bg-orange-2',
           type: 'string',
           width: '100px'
         },
-        {
-          label: 'Payment Method',
-          field: 'payment_method',
-          filter: true,
-          sort: true,
-          classes: 'bg-orange-2',
-          type: 'string',
-          width: '100px'
-        },
+        // {
+        //   label: 'Payment Method',
+        //   field: 'payment_method',
+        //   filter: true,
+        //   sort: true,
+        //   classes: 'bg-orange-2',
+        //   type: 'string',
+        //   width: '100px'
+        // },
         {
           label: 'Payment Status',
-          field: 'payment_status',
+          field: 'paying_status',
           filter: true,
           sort: true,
           classes: 'bg-orange-2',
@@ -158,6 +173,10 @@ export default {
       bodyHeightProp: 'maxHeight',
       bodyHeight: 500
     }
+  },
+  created: function() {
+    console.log('created!!')
+    this.fetchBookings({ headers: auth.getAuthHeader() })
   },
   watch: {
     pagination (value) {

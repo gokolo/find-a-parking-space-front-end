@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import auth from './components/auth'
 
 const requireAuth = (to, _from, next) => {
   if (!auth.authenticated()) {
@@ -46,16 +47,23 @@ export default new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
 
   routes: [
-    { path: '/', component: load('Home') },
-    { path: '/login', component: load('Login')},
-    { path: '/user', component: load('Users')},
-    { path: '/signup', component: load('Signup')},
-    { path: '/bookings', component: load('Bookings')},
-    { path: '/booking', component: load('Booking')},
-    //{ path: '/booking/:intented_stay/:place_id/:hourlyBasedCost/:realTimeBasedCost', component: booking, beforeEnter: requireAuth},
-    { path: '/customer', component: load('Customer')},
-
+    { path: '/', component: load('Search'), beforeEnter: requireAuth },
+    { path: '/login', component: load('Login'), beforeEnter: afterAuth},
+    { path: '/signup', component: load('Signup'), beforeEnter: afterAuth},
+    { path: '/bookings', component: load('Bookings'), beforeEnter: requireAuth},   
+    { path: '/book', component: load('Book'), beforeEnter: requireAuth},
+    { path: '/book/:intented_stay/:place_id/:hourlyBasedCost/:realTimeBasedCost', component: load('Book'), beforeEnter: requireAuth},
+    { path: '/customer', component: load('Customer'), beforeEnter: requireAuth },
+    { path: '*', redirect: '/login' }
     // Always leave this last one
-    { path: '*', component: load('Error404') } // Not found
+    //{ path: '*', component: load('Error404') }, // Not found
   ]
 });
+
+
+// {
+//   path: '/booking/:intented_stay/:place_id/:hourlyBasedCost/:realTimeBasedCost',
+//   component: load('Book'),
+//   props: true,
+//   beforeEnter: requireAuth
+// },

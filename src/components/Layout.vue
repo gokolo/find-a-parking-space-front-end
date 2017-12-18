@@ -19,11 +19,11 @@
       </q-toolbar-title>
        <!-- Navigation Tabs -->
       <q-tabs slot="navigation">
-        <q-route-tab slot="title" icon="home" to="/" replace hide="icon" label="Home" />
-        <q-route-tab slot="title" icon="account_box" to="/customer" replace hide="icon" label="Account" />
-        <q-route-tab slot="title" icon="directions_car" to="/bookings" replace label="Bookings" />
+        <q-route-tab v-if="is_auth() === true" slot="title" icon="home" to="/" replace hide="icon" label="Home" />
+        <q-route-tab v-if="is_auth() === true" slot="title" icon="account_box" to="/customer" replace hide="icon" label="Account" />
+        <q-route-tab v-if="is_auth() === true" slot="title" icon="directions_car" to="/bookings" replace label="Bookings" />
         <!-- <q-route-tab slot="title" icon="input" to="/layout/drawer" replace label="Drawer" /> -->
-        <q-route-tab slot="title" icon="input" class="pull-right" to="/login" label="Logout" v-on:click="logout" /> 
+        <q-route-tab v-if="is_auth() === true" slot="title" icon="input" class="pull-right" to="/login" label="Logout" v-on:click="logout" /> 
       </q-tabs>
     
     </q-toolbar>
@@ -80,12 +80,21 @@ export default {
     QLayout, QToolbar, QTabs, QRouteTab, QToolbarTitle, QIcon 
   },
   data () {
-    return {}
+    return {
+      auth
+    }
   },
   methods: {
       logout: function() {
-         // auth.logout(this, { headers: auth.getAuthHeader() });
-      }
+         auth.logout(this, { headers: auth.getAuthHeader() });
+      },
+      is_auth: function() {
+        return auth.authenticated()
+      },
+      getUserRole: () => auth.user.role
+  },
+  created: function () {
+    
   }
 }
 </script>
