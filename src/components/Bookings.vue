@@ -74,7 +74,8 @@ export default {
     deleteRow (props) {
       props.rows.forEach(row => {
         this.bookings.splice(row.index, 1)
-        
+        //delete from backend
+
       })
     },
     refresh (done) {
@@ -124,10 +125,18 @@ export default {
       },
       columns: [        
         {
+          label: 'Parking Date',
+          field: 'inserted_at',
+          filter: true,
+          sort: true,
+          type: 'string',
+          width: '100px'
+        },
+        {
           label: 'Parking Time (minutes)',
           field: 'estimated_time',
           filter: true,
-          sort: true,
+          sort: false,
           type: 'string',
           width: '100px'
         },
@@ -135,7 +144,7 @@ export default {
           label: 'Cost of Parking',
           field: 'estimated_cost',
           filter: true,
-          sort: true,
+          sort: false,
           classes: 'bg-orange-2',
           type: 'string',
           width: '100px'
@@ -144,7 +153,7 @@ export default {
           label: 'Payment Type',
           field: 'pay_type',
           filter: true,
-          sort: true,
+          sort: false,
           classes: 'bg-orange-2',
           type: 'string',
           width: '100px'
@@ -162,10 +171,16 @@ export default {
           label: 'Payment Status',
           field: 'paying_status',
           filter: true,
-          sort: true,
+          sort: false,
           classes: 'bg-orange-2',
-          type: 'string',
+          type: 'date',
           width: '100px'
+        },
+        sort (a, b) {
+          return (new Date(a)) - (new Date(b))
+        },
+        format (value, row) {
+          return new Date(value).toLocaleString()
         }
       ],
       pagination: true,
