@@ -48,7 +48,6 @@ import {
 } from 'quasar'
 import auth from "./auth"
 import axios from "axios";
-//import table from '../data/table.json'
 
 let BASE_URL = DEV ? 'http://localhost:4000' : 'http://localhost:4000';
 
@@ -74,8 +73,6 @@ export default {
     deleteRow (props) {
       props.rows.forEach(row => {
         this.bookings.splice(row.index, 1)
-        //delete from backend
-
       })
     },
     refresh (done) {
@@ -93,8 +90,6 @@ export default {
       axios.get(BASE_URL+"/api/bookings/summary", options)
         .then(response => {
           this.bookings = response.data
-          //console.log(response.data)
-          //console.log(response.data[0])
         })
     }
   },
@@ -129,8 +124,14 @@ export default {
           field: 'inserted_at',
           filter: true,
           sort: true,
-          type: 'string',
-          width: '100px'
+          type: 'date',
+          width: '100px',
+          // sort (a, b) {
+          // return (new Date(b)) - (new Date(a))
+          // },
+          format (value, row) {
+            return new Date(value).toLocaleString()
+          }
         },
         {
           label: 'Parking Time (minutes)',
@@ -175,12 +176,6 @@ export default {
           classes: 'bg-orange-2',
           type: 'date',
           width: '100px'
-        },
-        sort (a, b) {
-          return (new Date(a)) - (new Date(b))
-        },
-        format (value, row) {
-          return new Date(value).toLocaleString()
         }
       ],
       pagination: true,
