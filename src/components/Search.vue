@@ -14,30 +14,6 @@
       <div id="map-driver"></div>
     </div>
 
-    <div class="modal fade" id="myModal" role="dialog">
-      <div class="modal-dialog">
-    
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Want to Extend Your Stay!</h4>
-          </div>
-          <div class="modal-body">
-            <div class="well">
-                <div class="alert alert-info" v-if="visible">
-                    Parking Time is about to finish.
-                    <button class="btn btn-default" v-on:click="submitDecision({status: 'accepted'})">Extend for an hour</button>
-                    <button class="btn btn-danger" v-on:click="submitDecision({status: 'rejected'})">Reject</button>
-                </div>
-            </div>
-          </div>  
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      
-      </div>
-    </div>
   </div>
 
   
@@ -62,24 +38,10 @@ export default {
             places: [],
             roads: [],
             centerLocation: null,
-            intented_stay_time: 0,
-            channelMessage: null,
-            visible:false
+            intented_stay_time: 0
         }
     },
     methods: {
-        submitDecision: function (decision) {
-            if (this.channelMessage) {
-                 $("#myModal").modal('toggle');
-                axios.patch(BASE_URL+"/api/bookings/" +this.channelMessage.booking_id, 
-                    {status: decision.status}, {headers: auth.getAuthHeader()})
-                .then( response => {
-                    console.log("Received:", response );
-                }).catch( e => console.log("Oops"));
-                this.channelMessage = null;
-                this.visible = false;
-            }
-        },
         submitBookingRequest: function() {
             axios.post(BASE_URL+"/api/bookings",
                 {destination_address: this.destination_address, intented_stay_time: this.intented_stay_time},
@@ -193,20 +155,6 @@ export default {
         }
     },
     mounted: function() {
-        if (auth.socket) {
-            var channel = auth.getChannel("customer:");
-            console.log(channel)
-            channel.join()
-                .receive("ok", resp => { console.log("Joined successfully", resp) })
-                .receive("error", resp => { console.log("Unable to join", resp) });
-
-            channel.on("requests", payload => {
-                console.log(payload)
-                this.channelMessage = payload;
-                this.visible = true;
-                $("#myModal").modal('toggle');
-            });
-        }
         var loc
         navigator.geolocation.getCurrentPosition(position => {
             loc = {lat: position.coords.latitude, lng: position.coords.longitude};
