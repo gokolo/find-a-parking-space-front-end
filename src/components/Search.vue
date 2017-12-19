@@ -24,6 +24,7 @@ import {QField, QInput, QBtn} from 'quasar'
 
 import axios from "axios";
 import auth from "./auth";
+import { Toast } from 'quasar';
 
 let BASE_URL = DEV ? 'http://localhost:4000' : 'http://localhost:4000';
 
@@ -38,7 +39,9 @@ export default {
             places: [],
             roads: [],
             centerLocation: null,
-            intented_stay_time: 0
+            intented_stay_time: 0,
+            channelMessage: null,
+            visible:false
         }
     },
     methods: {
@@ -112,7 +115,31 @@ export default {
                 this.handleMarker(road, map)
             })
         },
+
+        notify () {
+                Toast.create({
+                    html: 'Want to Extend Your Stay?',
+                    timeout: 10000,
+                    button: {
+                    label: 'Extend for an hour: ',
+                    handler () {
+                        this.submitDecision({status: 'accepted'})
+                    }
+                    }
+                })
+            },
         
+        submitDecision: function (decision) {
+            if (this.channelMessage) {
+                axios.patch(BASE_URL+"/api/bookings/" +this.channelMessage.booking_id, 
+                    {status: decision.status}, {headers: auth.getAuthHeader()})
+                .then( response => {
+                    console.log("Received:", response );
+                }).catch( e => console.log("Oops"));
+                this.channelMessage = null;
+                this.visible = false;
+            }
+        },
         handleMarker: function(place, map){
             var loc = {lat: place.startLat, lng: place.startLng}
                 if(this.intented_stay_time == null | this.intented_stay_time <= 0){
@@ -155,7 +182,24 @@ export default {
         }
     },
     mounted: function() {
-        var loc
+
+         var loc;
+            if (auth.socket) {
+                    var channel = auth.getChannel("customer:");
+                    console.log(channel)
+                    channel.join()
+                        .receive("ok", resp => { console.log("Joined successfully", resp) })
+                        .receive("error", resp => { console.log("Unable to join", resp) });
+
+                    channel.on("requests", payload => {
+                        console.log("notification")
+                        console.log(payload)
+                        this.channelMessage = payload;
+                        this.visible = true;
+                        this.notify();
+                        //$("#myModal").modal('show');
+                    });
+                }
         navigator.geolocation.getCurrentPosition(position => {
             loc = {lat: position.coords.latitude, lng: position.coords.longitude};
             this.geocoder = new google.maps.Geocoder;

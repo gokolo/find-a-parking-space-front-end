@@ -48,7 +48,7 @@ export default {
   updateUser: function (context) {
     var user = window.localStorage.getItem('id-'+this.user.username)
     var id = user.id
-    axios.put(BASE_URL+"/api/user/"+id, context)
+    axios.put(BASE_URL+"/api/user/", context, getAuthHeader())
       .then(response => {
         // window.location.replace("/#/login");
       })

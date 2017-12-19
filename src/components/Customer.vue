@@ -72,7 +72,7 @@ export default {
 
   methods: {
     fetch_user (id, options) {
-      axios.get(BASE_URL+"/api/user/"+id, options)
+      axios.get(BASE_URL+"/api/user/", options)
         .then(response => {
           this.user = response.data
         })
@@ -85,8 +85,14 @@ export default {
       console.log("sent new user");
     },
     update_user: function() {      
-      auth.updateUser({name: this.name, username: this.username, password: this.password, card_holder_name: this.card_holder_name, card_number: this.card_number, card_cvc: this.card_cvc, expiry_date: this.expiry_date});
+      // auth.updateUser({name: this.name, username: this.username, password: this.password, card_holder_name: this.card_holder_name, card_number: this.card_number, card_cvc: this.card_cvc, expiry_date: this.expiry_date});
+      console.log(this.user)
+      axios.put(BASE_URL+"/api/user/",this.user,{ headers: auth.getAuthHeader()})
+        .then(response => {
+          this.user = response.data
+        })
       console.log("sent update user");
+      window.location.replace("/#");
     }
   },
   created: function() {

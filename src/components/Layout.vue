@@ -137,7 +137,6 @@ export default {
     },
     submitDecision: function (decision) {
         if (this.channelMessage) {
-              $("#myModal").modal('hide');
             axios.patch(BASE_URL+"/api/bookings/" +this.channelMessage.booking_id, 
                 {status: decision.status}, {headers: auth.getAuthHeader()})
             .then( response => {
@@ -164,6 +163,7 @@ export default {
                 .receive("error", resp => { console.log("Unable to join", resp) });
 
             channel.on("requests", payload => {
+                console.log("notification")
                 console.log(payload)
                 this.channelMessage = payload;
                 this.visible = true;
