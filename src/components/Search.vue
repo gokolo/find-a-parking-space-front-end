@@ -116,7 +116,8 @@ export default {
             })
         },
 
-        notify () {
+        notify: function() {
+            console.log("inside the notify");
                 Toast.create({
                     html: 'Want to Extend Your Stay?',
                     timeout: 10000,
