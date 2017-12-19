@@ -47,6 +47,7 @@ export default new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
 
   routes: [
+    { path: '/modal', component: load('Modal')},
     { path: '/', component: load('Search'), beforeEnter: requireAuth },
     { path: '/login', component: load('Login'), beforeEnter: afterAuth},
     { path: '/signup', component: load('Signup'), beforeEnter: afterAuth},

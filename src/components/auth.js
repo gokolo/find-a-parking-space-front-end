@@ -36,7 +36,7 @@ export default {
       });
   },
   newUser: function (context) {
-    axios.post(BASE_URL+"/api/sign-up", creds)
+    axios.post(BASE_URL+"/api/sign-up", context)
       .then(response => {
         window.location.replace("/#/login");
       })

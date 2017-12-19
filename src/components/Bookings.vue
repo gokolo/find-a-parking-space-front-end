@@ -20,21 +20,25 @@
         <div v-else class="my-label text-white bg-negative">{{cell.data}}</div>
       </template>
 
-      <template slot="selection" slot-scope="props">
-        <!-- <q-btn flat color="primary" @click="changeMessage(props)">
-          <q-icon name="edit" />
-        </q-btn> -->
-        <q-btn flat color="primary" @click="deleteRow(props)">
-          <q-icon name="delete" />
-        </q-btn>
-      </template>
+      <template slot='col-action' scope='cell'>
+        <q-btn icon="mode edit" color="primary" @click.prevent="rowClick(cell.row.id)"></q-btn>
+      </template>     
+  <!-- v-if="paying_status = "UNPAID""  @click='pay_booking(cell.row.id) $refs.minimizedModal.close()'-->
     </q-data-table>
+
+    <q-modal ref="minimizedModal" minimized :content-css="{padding: '50px'}">
+      <div>      
+        <p class="caption">Payment accepted! Booking complete...</p>
+      </div>
+    </q-modal>
+
   </div>
 </template>
 
 <script>
 import {
   QDataTable,
+  QModal,
   QField,
   QInput,
   QCheckbox,
@@ -43,17 +47,21 @@ import {
   QBtn,
   QIcon,
   QTooltip,
+  QList,
   QCollapsible,
   clone
 } from 'quasar'
 import auth from "./auth"
 import axios from "axios";
+import { Toast } from 'quasar';
 
 let BASE_URL = DEV ? 'http://localhost:4000' : 'http://localhost:4000';
 
 export default {
   components: {
     QDataTable,
+    QModal,
+    QList,
     QField,
     QInput,
     QCheckbox,
@@ -84,13 +92,36 @@ export default {
       console.log(`selected ${number}: ${rows}`)
     },
     rowClick (row) {
-      console.log('clicked on a row', row)
+      var id = row.id
+      if (id != undefined) {
+        axios.patch(BASE_URL+"/api/pay/"+id, {id: id}, { headers: auth.getAuthHeader() })
+        .then(response => {
+          //$refs.minimizedModal.open()
+        })
+      }
+      console.log('clicked on a row',row)
+    },
+    pay_booking (id) {
+      console.log(id)
+      axios.patch(BASE_URL+"/api/pay/"+id)
+        .then(response => {
+          $refs.minimizedModal.close()
+        })
     },
     fetchBookings (options) {
       axios.get(BASE_URL+"/api/bookings/summary", options)
         .then(response => {
           this.bookings = response.data
         })
+    },
+    notify (eventName) {
+      Toast.create(`Event "${eventName}" was triggered.`)
+    },
+    openSpecialPosition (position) {
+      this.position = position
+      this.$nextTick(() => {
+        this.$refs.positionModal.open()
+      })
     }
   },
   beforeDestroy () {
@@ -126,9 +157,6 @@ export default {
           sort: true,
           type: 'date',
           width: '100px',
-          // sort (a, b) {
-          // return (new Date(b)) - (new Date(a))
-          // },
           format (value, row) {
             return new Date(value).toLocaleString()
           }
@@ -159,15 +187,6 @@ export default {
           type: 'string',
           width: '100px'
         },
-        // {
-        //   label: 'Payment Method',
-        //   field: 'payment_method',
-        //   filter: true,
-        //   sort: true,
-        //   classes: 'bg-orange-2',
-        //   type: 'string',
-        //   width: '100px'
-        // },
         {
           label: 'Payment Status',
           field: 'paying_status',
@@ -176,12 +195,28 @@ export default {
           classes: 'bg-orange-2',
           type: 'date',
           width: '100px'
+        },
+        {
+          label: 'Payment Action',
+          field: 'action',
+          filter: true,
+          sort: true,
+          type: 'string',
+          width: '120px'          
         }
       ],
       pagination: true,
       rowHeight: 50,
       bodyHeightProp: 'maxHeight',
-      bodyHeight: 500
+      bodyHeight: 500,
+      search: '',
+      types: [
+        {
+          label: 'Always Minimized',
+          ref: 'minimizedModal'
+        }
+      ],
+      position: 'bottom'
     }
   },
   created: function() {

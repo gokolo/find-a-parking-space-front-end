@@ -23,10 +23,10 @@
       <q-input type="password" v-model="card_cvc" max-length="3"/>
     </q-field>
     <q-field helper="Expiry Date (mmyy) :">
-      <q-input type="string" v-model="expiry_date" max-length="5"/>
+      <q-input type="text" v-model="expiry_date" max-length="5"/>
     </q-field>
 
-    <q-btn icon="input" class="full-width" color="primary" v-on:click="login()">Signup</q-btn>
+    <q-btn icon="input" class="full-width" color="primary" v-on:click="sign_up()">Signup</q-btn>
    
     <div>
       <q-side-link item to="/login"> 
@@ -39,19 +39,28 @@
 
 <script>
 import {QField, QInput, QBtn, QSideLink, QItemMain} from 'quasar'
+import auth from "./auth";
+
 export default {
   components: {
     QField, QInput, QBtn, QSideLink, QItemMain
   },
-  name: 'users',
   data () {
     return {
-      new_user: {},
-      users: []
+      name: "",
+      username: "",
+      password: "",
+      card_holder_name: "",
+      card_number: "",
+      card_cvc: "",
+      expiry_date: ""
     }
   },
   methods: {
-    
+    sign_up: function() {      
+      auth.newUser({name: this.name, username: this.username, password: this.password, card_holder_name: this.card_holder_name, card_number: this.card_number, card_cvc: this.card_cvc, expiry_date: this.expiry_date});
+      console.log(`sent new user`);
+    }
   }
 }
 </script>

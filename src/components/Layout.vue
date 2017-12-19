@@ -112,25 +112,34 @@ export default {
     }
   },
   methods: {
-        submitDecision: function (decision) {
-            if (this.channelMessage) {
-                 $("#myModal").modal('hide');
-                axios.patch(BASE_URL+"/api/bookings/" +this.channelMessage.booking_id, 
-                    {status: decision.status}, {headers: auth.getAuthHeader()})
-                .then( response => {
-                    console.log("Received:", response );
-                }).catch( e => console.log("Oops"));
-                this.channelMessage = null;
-                this.visible = false;
-            }
-        },
-      logout: function() {
-         auth.logout(this, { headers: auth.getAuthHeader() });
-      },
-      is_auth: function() {
-        return auth.authenticated()
-      },
-      getUserRole: () => auth.user.role
+    notify (eventName) {
+      Toast.create(`Event "${eventName}" was triggered.`)
+    },
+    openSpecialPosition (position) {
+      this.position = position
+      this.$nextTick(() => {
+        this.$refs.positionModal.open()
+      })
+    },
+    submitDecision: function (decision) {
+        if (this.channelMessage) {
+              $("#myModal").modal('hide');
+            axios.patch(BASE_URL+"/api/bookings/" +this.channelMessage.booking_id, 
+                {status: decision.status}, {headers: auth.getAuthHeader()})
+            .then( response => {
+                console.log("Received:", response );
+            }).catch( e => console.log("Oops"));
+            this.channelMessage = null;
+            this.visible = false;
+        }
+    },
+  logout: function() {
+      auth.logout(this, { headers: auth.getAuthHeader() });
+  },
+  is_auth: function() {
+    return auth.authenticated()
+  },
+  getUserRole: () => auth.user.role
   },
   mounted: function() {
     if (auth.socket) {

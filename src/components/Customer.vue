@@ -51,6 +51,15 @@ export default {
     QItemMain,
     QItemTile,
     QBtn
+  },
+  data () {
+    return {
+      
+    }
+  },
+
+  methods: {
+    
   }
 }
 </script>
