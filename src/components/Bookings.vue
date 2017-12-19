@@ -87,6 +87,7 @@ export default {
       this.timeout = setTimeout(() => {
         done()
       }, 5000)
+      console.log("refreshed!")
     },
     selection (number, rows) {
       console.log(`selected ${number}: ${rows}`)
@@ -96,7 +97,7 @@ export default {
       if (id != undefined) {
         axios.patch(BASE_URL+"/api/pay/"+id, {id: id}, { headers: auth.getAuthHeader() })
         .then(response => {
-          //$refs.minimizedModal.open()
+          this.notify()
         })
       }
       console.log('clicked on a row',row)
@@ -114,14 +115,8 @@ export default {
           this.bookings = response.data
         })
     },
-    notify (eventName) {
-      Toast.create(`Event "${eventName}" was triggered.`)
-    },
-    openSpecialPosition (position) {
-      this.position = position
-      this.$nextTick(() => {
-        this.$refs.positionModal.open()
-      })
+    notify () {
+      Toast.create('Payment Successful!')
     }
   },
   beforeDestroy () {
@@ -133,7 +128,7 @@ export default {
       bookings: [],
       config: {
         title: '',
-        refresh: false,
+        refresh: true,
         noHeader: false,
         columnPicker: false,
         leftStickyColumns: 0,
@@ -200,7 +195,7 @@ export default {
           label: 'Payment Action',
           field: 'action',
           filter: true,
-          sort: true,
+          sort: false,
           type: 'string',
           width: '120px'          
         }
@@ -220,7 +215,6 @@ export default {
     }
   },
   created: function() {
-    console.log('created!!')
     this.fetchBookings({ headers: auth.getAuthHeader() })
   },
   watch: {

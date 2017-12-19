@@ -12,7 +12,7 @@
           link
           v-for="modal in types"
           :key="modal"
-          @click="$refs[modal.ref].open()"
+          @click="$refs.minimizedModal.open()"
           v-ripple.mat
         >
           <q-item-side icon="open_in_new" />

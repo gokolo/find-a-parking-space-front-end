@@ -13,6 +13,7 @@ export default {
         this.user.username = creds.username;
         this.user.role = response.data.role;
         window.localStorage.setItem('token-'+this.user.username, response.data.token);
+        window.localStorage.setItem('id-'+this.user.username, response.data.id);
 
         this.socket = new Socket(SOCKET_URL + "/socket", {params: {token: response.data.token}});
         this.socket.connect();
@@ -44,6 +45,17 @@ export default {
         console.log(error);
       });
   },
+  updateUser: function (context) {
+    var user = window.localStorage.getItem('id-'+this.user.username)
+    var id = user.id
+    axios.put(BASE_URL+"/api/user/"+id, context)
+      .then(response => {
+        // window.location.replace("/#/login");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  },
   getChannel: function(prefix) {
     var token = window.localStorage.getItem('token-'+this.user.username);
     var channel = this.socket.channel(prefix + this.user.username, { guardian_token: token });
@@ -56,6 +68,11 @@ export default {
   getAuthHeader: function() {
     return {
       "Authorization": window.localStorage.getItem('token-'+this.user.username)
+    }
+  },
+  getAuthUserId: function() {
+    return {
+      "id": window.localStorage.getItem('id-'+this.user.username)
     }
   }
 }

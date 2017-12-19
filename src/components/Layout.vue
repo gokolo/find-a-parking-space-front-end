@@ -54,7 +54,7 @@
     </div>
     -->
 
-    <div class="modal fade" id="myModal" role="dialog">
+    <!-- <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog">
     
         <div class="modal-content">
@@ -77,7 +77,7 @@
         </div>
       
       </div>
-    </div>
+    </div> -->
 
     <!-- Right Side Panel
     <div slot="right">
@@ -112,8 +112,22 @@ export default {
     }
   },
   methods: {
-    notify (eventName) {
-      Toast.create(`Event "${eventName}" was triggered.`)
+    notify () {
+      Toast.create({
+        html: 'Want to Extend Your Stay?',
+        button: {
+          label: 'Extend for an hour: ',
+          handler () {
+            submitDecision({status: 'accepted'})
+          }
+        },
+        button: {
+          label: 'Reject',
+          handler () {
+            submitDecision({status: 'rejected'})
+          }
+        }
+      })
     },
     openSpecialPosition (position) {
       this.position = position
@@ -153,7 +167,8 @@ export default {
                 console.log(payload)
                 this.channelMessage = payload;
                 this.visible = true;
-                $("#myModal").modal('show');
+                this.notify();
+                //$("#myModal").modal('show');
             });
         }
   },
